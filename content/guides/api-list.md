@@ -22,7 +22,7 @@ In this example we are going to retrieve the information of all PID in the 11239
 ### The request in curl
 
 <pre><code>
-    curl -D- -u "YOURUSERNAME:YOURPASSWORD" -X GET -H "Content-Type: application/json" https://epic.grnet.gr/api/v2/handles/11239/05C3DB56-5692-11E3-AF8F-1C6F65A666B5
+    curl -D- -u "YOURUSERNAME:YOURPASSWORD" -X GET -H "Content-Type: application/json" https://epic.grnet.gr/api/v2/handles/11239/
 
 </code></pre>
 
@@ -37,8 +37,6 @@ PIDSERVICE_PASSWD="YOURPASSWORD"
 URL_TO_OPEN="THE_SERVICE_URL_WITH_PREFIX"
 DATAURL='';
     
-
-#The idea is to create a password manager, and then tell urllib about it.
 # create a password manager
 password_mgr = urllib2.HTTPPasswordMgrWithDefaultRealm()
 
@@ -95,14 +93,14 @@ curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 
 // Download the given URL, and return output
 $output = curl_exec($curl);
-$finalData = json_decode($output);
 
 $info = curl_getinfo($curl);
-if( $info['http_code']==200) echo "PID DATA<br/>";
-if( $info['http_code']==404) echo "HANDLE DOESNT EXIST<br/>";
+if( $info['http_code']==200) echo "PID DATA";
+if( $info['http_code']==401) echo "Authorization problem";
+if( $info['http_code']==404) echo "Not found";
 
 // Close the cURL resource, and free system resources
-curl_close($ch);
+curl_close($curl);
 </code></pre>
 
 ### The response:

@@ -42,8 +42,8 @@ PIDSERVICE_URL="THE_SERVICE_URL_WITH_PREFIX"
 PIDSERVICE_USER="YOURUSERNAME"
 PIDSERVICE_PASSWD="YOURPASSWORD"
 HANDLENAME="05C3DB56-5692-11E3-AF8F-1C6F65A666B5"
-URL_TO_OPEN=PIDSERVICE_URL+HANDLENAME;
-DATAURL="";
+URL_TO_OPEN=PIDSERVICE_URL+HANDLENAME
+DATAURL=""
 
 # create a password manager
 password_mgr = urllib2.HTTPPasswordMgrWithDefaultRealm()
@@ -57,18 +57,26 @@ handler = urllib2.HTTPBasicAuthHandler(password_mgr)
 opener = urllib2.build_opener(handler)
 
 # use the opener to fetch a URL
-opener.open(PIDSERVICE_URL)
+opener.open(URL_TO_OPEN)
 
 # Install the opener.
-# Now all calls to urllib2.urlopen use the created opener.
+# Now all calls to urllib2.urlopen use our opener.
 urllib2.install_opener(opener)
 
+#http://stackoverflow.com/questions/2407126/python-urllib2-basic-auth-problem
 REQUESTDATA = urllib2.Request(URL_TO_OPEN)    
+# creates the delete method
+REQUESTDATA.get_method = lambda: 'DELETE' 
+
 try:
-    DATAURL = urllib2.urlopen(REQUESTDATA)
+	DATAURL = urllib2.urlopen(REQUESTDATA)
 except urllib2.URLError, e:
-        if e.code == 401:
-        print "401-Authentication failed"        
+	if e.code == 404:
+		print "404-Not found"
+	if e.code == 401:
+		print "401-Authentication failed"	
+	if e.code == 403:
+		print "403-Not permitted"      
 </code></pre>
 
 ### The request in php 
@@ -83,13 +91,13 @@ $PIDTODELETE= $PIDSERVICE_URL.$HANDLENAME;
 $curl = curl_init();
 
 // Set the url to authenticate
-curl_setopt($curl,CURLOPT_URL,$PIDSERVICE_URL);
+curl_setopt($curl,CURLOPT_URL,$PIDTODELETE);
 // Set the authentication options
 curl_setopt($curl, CURLOPT_USERPWD, $PIDSERVICE_USER.":".$PIDSERVICE_PASSWD);
 curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
 
 //set the DELETE action 
-curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "DELETE");
+curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "DELETE");
 
 // Include header in result? (0 = yes, 1 = no)
 curl_setopt($curl, CURLOPT_HEADER, 0);
@@ -98,12 +106,15 @@ curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 
 // Download the given URL, and return output
 $output = curl_exec($curl);
-
 $info = curl_getinfo($curl);
-if( $info['http_code']==204) echo "The PID was successfully deleted<br/>";
-if( $info['http_code']==401) echo "Authorization failed: Either your login or your password is wrong.<br/>";
+if( $info['http_code']==204) echo "The PID was successfully deleted";
+if( $info['http_code']==401) echo "Authorization failed: Either your login or your password is wrong.";
+if( $info['http_code']==403) echo "HTTP/1.1 403 Forbidden: The operation is not permitted.<br/>";
+if( $info['http_code']==405) echo "HTTP/1.1 405 Method Not Allowed: The submitted url with PID is wrong<br/>";
+
 // Close the cURL resource, and free system resources
-curl_close($ch);
+curl_close($curl);
+
 </code></pre>
 
 ### The response:
@@ -111,7 +122,8 @@ curl_close($ch);
 - HTTP/1.1 204 No Content: (Success) 
 - HTTP/1.1 401 Unauthorized: Your username or your password is wrong
 - HTTP/1.1 404 Not found: The resource doesn't exist
-
+- HTTP/1.1 403 Forbidden: The operation is not permitted
+- HTTP/1.1 405 Method Not Allowed: The submitted url with PID is wrong
 <pre><code>
 > DELETE /handles/11239/05C3DB56-5692-11E3-AF8F-1C6F65A666B5 HTTP/1.1
 > Authorization: Basic Y2xhcmluLWVsOjUxMjdkZWIxZTJjNg==

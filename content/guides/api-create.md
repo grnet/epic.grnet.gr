@@ -43,7 +43,7 @@ In this example we are going to create a new handle in the following url https:/
 #!/bin/bash    
 
 SUFFIX=`uuidgen`
-curl -v -u "YOURUSERNAME:YOURPASSWORD" -H "Accept:application/json" -H "Content-Type:application/json" -X PUT --data '[{"type":"URL","parsed_data":"http://www.grnet.gr/"}]' https://epic.grnet.gr/handles/11239/$SUFFIX	
+curl -v -u "YOURUSERNAME:YOURPASSWORD" -H "Accept:application/json" -H "Content-Type:application/json" -X PUT --data '[{"type":"URL","parsed_data":"http://www.grnet.gr/"}]' https://epic.grnet.gr/api/v2/handles/11239/$SUFFIX	
 
 </code></pre>
 
@@ -52,13 +52,14 @@ curl -v -u "YOURUSERNAME:YOURPASSWORD" -H "Accept:application/json" -H "Content-
 <pre><code class="language-python">
 import urllib2
 import uuid
+import json
 
 PIDSERVICE_URL="THE_SERVICE_URL_WITH_PREFIX"
 PIDSERVICE_USER="YOURUSERNAME"
 PIDSERVICE_PASSWD="YOURPASSWORD"
 SUFFIX =str(uuid.uuid1());
-URL_TO_OPEN=THE_SERVICE_URL_WITH_PREFIX+SUFFIX
-DATAURL='';
+URL_TO_OPEN=PIDSERVICE_URL+SUFFIX
+DATAURL=''
 
 # create a password manager
 password_mgr = urllib2.HTTPPasswordMgrWithDefaultRealm()
@@ -79,7 +80,7 @@ opener.open(PIDSERVICE_URL)
 urllib2.install_opener(opener)
 
 #create the json data
-JSONDATA = [{'type':'URL','parsed_data':'http://www.grnet.gr’'}]
+JSONDATA = [{'type':'URL','parsed_data':'http://www.grnet.gr'}]
 JSONDATATOSEND = json.dumps(JSONDATA);
 
 REQUESTDATA = urllib2.Request(URL_TO_OPEN, data=JSONDATATOSEND)
@@ -101,13 +102,10 @@ except urllib2.URLError, e:
     if e.code == 401:
         print "401-Authentication failed"    
         #get http code of the request
-else:        
-    #get http code of the request
-    HTTPCODE = DATAURL.getcode()    
-    body = DATAURL.read()
  
-# Getting the code
-print "This gets the code: ", DATAURL.code
+if DATAURL:
+    # Getting the code
+    print "This gets the code: ", DATAURL.code
  
 </code></pre>
 

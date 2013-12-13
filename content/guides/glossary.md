@@ -11,7 +11,7 @@ title: Glossary | GRNET Handle API
 
 
     # GRNET EPIC API URL
-    https://epic.grnet.gr/handles/11239/
+    https://epic.grnet.gr/api/v2/handles/11239/
 
     # GRNET EPIC API prefix
     11239

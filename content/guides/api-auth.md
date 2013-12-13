@@ -44,7 +44,8 @@ import urllib2
 PIDSERVICE_URL="THE_SERVICE_URL_WITH_PREFIX"
 PIDSERVICE_USER="YOURUSERNAME"
 PIDSERVICE_PASSWD="YOURPASSWORD"
-DATAURL='';
+DATAURL=''
+URL_TO_OPEN=PIDSERVICE_URL
     
 # create a password manager
 password_mgr = urllib2.HTTPPasswordMgrWithDefaultRealm()
@@ -103,10 +104,10 @@ $finalData = json_decode($output);
     
 $info = curl_getinfo($curl);
 if( $info['http_code']==200) echo "Authorization ok<br/>";
-if( $info['http_code']==404) echo "Authorization failed: Either your login or your password is wrong.<br/>";
+if( $info['http_code']==401) echo "Authorization failed: Either your login or your password is wrong.<br/>";
 
 // Close the cURL resource, and free system resources
-curl_close($ch);
+curl_close($curl);
 
 </code></pre>
 

@@ -25,6 +25,7 @@ password | your password | Yes |None| |
 ## Example
 
 In this example we are going to retrieve the information of a PID with the following URL https://epic.grnet.gr/api/v2/handles/11239/05C3DB56-5692-11E3-AF8F-1C6F65A666B5
+
 ### The request in curl
 
 <pre><code>
@@ -37,14 +38,13 @@ In this example we are going to retrieve the information of a PID with the follo
 <pre><code class="language-python">
 import urllib2
 
-PIDSERVICE_URL="THE_SERVICE_URL_WITH_PREFIX"
+PIDSERVICE_URL="THE_SERVICE_URL_WITH_PREFIX" #dont forget to add "/" at the end
 PIDSERVICE_USER="YOURUSERNAME"
 PIDSERVICE_PASSWD="YOURPASSWORD"
-URL_TO_OPEN="THE_SERVICE_URL_WITH_PREFIX/05C3DB56-5692-11E3-AF8F-1C6F65A666B5"
-DATAURL='';
+HANDLENAME="YOUR_PID" #for example "66742AB2-5685-11E3-A413-1C6F65A666B5"
+URL_TO_OPEN=PIDSERVICE_URL+HANDLENAME
+DATAURL=''
     
-
-#The idea is to create a password manager, and then tell urllib about it.
 # create a password manager
 password_mgr = urllib2.HTTPPasswordMgrWithDefaultRealm()
 
@@ -84,7 +84,9 @@ if DATAURL:
 $PIDSERVICE_URL="THE_SERVICE_URL_WITH_PREFIX";
 $PIDSERVICE_USER="YOURUSERNAME";
 $PIDSERVICE_PASSWD="YOURPASSWORD";
-$GETPIDURL ="THE_SERVICE_URL_WITH_PREFIX/05C3DB56-5692-11E3-AF8F-1C6F65A666B5";
+$PID="THE_PID"; //"05C3DB56-5692-11E3-AF8F-1C6F65A666B5";
+$GETPIDURL =$PIDSERVICE_URL.$PID;
+
 
 // Get cURL resource
 $curl = curl_init();
@@ -102,11 +104,12 @@ curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 // Download the given URL, and return output
 $output = curl_exec($curl);
 $info = curl_getinfo($curl);
-if( $info['http_code']==200) echo "PID DATA<br/>";
-if( $info['http_code']==404) echo "HANDLE DOESNT EXIST<br/>";
+if( $info['http_code']==200) echo "PID DATA";
+if( $info['http_code']==401) echo "Authorization problem";
+if( $info['http_code']==404) echo "Not found";
 
 // Close the cURL resource, and free system resources
-curl_close($ch);
+curl_close($curl);
 
 </code></pre>
 

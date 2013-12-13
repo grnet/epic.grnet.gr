@@ -18,6 +18,7 @@ You can search for a PID by using a term.
 ## Example
 
 In this example we are going to use the term GRNET to retrieve the list of PIDs with the following URL https://epic.grnet.gr/api/v2/handles/11239/?URL=*GRNET*
+
 ### The request in curl
 
 <pre><code>
@@ -32,11 +33,9 @@ import urllib2
 PIDSERVICE_URL="THE_SERVICE_URL_WITH_PREFIX"
 PIDSERVICE_USER="YOURUSERNAME"
 PIDSERVICE_PASSWD="YOURPASSWORD"
-URL_TO_OPEN="THE_SERVICE_URL_WITH_PREFIX?URL=*grnet*"
-DATAURL='';
-    
+URL_TO_OPEN=PIDSERVICE_URL+"?URL=*grnet*"
+DATAURL=''
 
-#The idea is to create a password manager, and then tell urllib about it.
 # create a password manager
 password_mgr = urllib2.HTTPPasswordMgrWithDefaultRealm()
 
@@ -77,12 +76,12 @@ $PIDSERVICE_URL="THE_SERVICE_URL_WITH_PREFIX";
 $PIDSERVICE_USER="YOURUSERNAME";
 $PIDSERVICE_PASSWD="YOURPASSWORD";
 $SEARCHTERM = "grnet";
-$GETPIDURL ="THE_SERVICE_URL_WITH_PREFIX?URL=*".$SEARCHTERM."*";
+$GETPIDURL =$PIDSERVICE_URL."?URL=*".$SEARCHTERM."*";
 
 // Get cURL resource
 $curl = curl_init();
 // Set some options - we are passing in a useragent too here
-curl_setopt($curl,CURLOPT_URL,$SEARCHURL);
+curl_setopt($curl,CURLOPT_URL,$GETPIDURL);
 // Set the authentication options
 curl_setopt($curl, CURLOPT_USERPWD, $PIDSERVICE_USER.":".$PIDSERVICE_PASSWD);
 curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
@@ -94,14 +93,14 @@ curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 
 // Download the given URL, and return output
 $output = curl_exec($curl);
-$finalData = json_decode($output);
 
 $info = curl_getinfo($curl);
-if( $info['http_code']==200) echo "PID DATA<br/>";
-if( $info['http_code']==404) echo "HANDLE DOESNT EXIST<br/>";
+if( $info['http_code']==200) echo "PID DATA";
+if( $info['http_code']==401) echo "Authorization problem";
+if( $info['http_code']==404) echo "Not found";
 
 // Close the cURL resource, and free system resources
-curl_close($ch);
+curl_close($curl);
 </code></pre>
 
 ### The response:
