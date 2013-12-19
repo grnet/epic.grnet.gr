@@ -13,9 +13,9 @@ layout: overview
 <div class="full-width-divider">
 	<ul class="wrapper highlights">
 		<li class="highlight-module">
-			<a href="/guides/"><span class="big-icon glyphicon-book"></span></a>
-			<h2><a href="/guides/">Get Started</a></h2>
-			<p>New to the GitHub API? With these guides you’ll be up and running in a snap.</p>
+			<a href="/guides/overview/"><span class="big-icon glyphicon-book"></span></a>
+			<h2><a href="/guides/overview/">Get Started</a></h2>
+			<p>Get started with the EPIC API. Browse the documentation</p>
 		</li>
 		<li class="highlight-module">
 			<a href="/guides/api/"><span class="big-icon glyphicon-list-alt"></span></a>
@@ -23,8 +23,8 @@ layout: overview
 			<p>Enable the use of persistent identifiers in your application using the EPIC API</p>
 		</li>
 		<li class="highlight-module">
-			<a href="/contact/"><span class="big-icon glyphicon-envelope"></span></a>
-			<h2><a href="/contact/">Contact</a></h2>
+			<a href="mailto:hdl-support@grnet.gr"><span class="big-icon glyphicon-envelope"></span></a>
+			<h2><a href="mailto:hdl-support@grnet.gr" target="_top">Contact</a></h2>
 			<p>Are you interested in using Persistent Identifiers for your data set? Get in touch with us to get you started.</p>
 		</li>
 	</ul>
