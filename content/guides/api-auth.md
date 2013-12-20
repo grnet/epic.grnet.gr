@@ -2,7 +2,7 @@
 title: API | Basic Authentication
 ---
 
-# API - Basic Authentication
+# API - Basic Authentication 
 
 This API uses JSON as the primary exchange format. All implementations MUST be able to produce and consume JSON.
 
