@@ -23,7 +23,7 @@ use a single handle
 
 ## Example
 In our example we have a main handle 11239/1234576. 
-<pre><code>
+
 So suppose that 11239/1234576 resolves to http://grnet.gr 
 
 suppose that a template  is enabled with the expression
@@ -32,5 +32,5 @@ the part identifier behavior is enabled with the expression
   <i>prefix/suffix@a=x&b=y</i>
 then 
  11239/1234576@a=c&b=d  will be resolved to http://grnet.gr?a=c&b=d
-</code></pre>
+
 
