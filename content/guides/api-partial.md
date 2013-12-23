@@ -31,6 +31,6 @@ suppose that a template  is enabled with the expression
 the part identifier behavior is enabled with the expression 
   <i>prefix/suffix@a=x&b=y</i>
 then 
- 11239/1234576@a=c&b=d  will be resolved to http://grnet.gr?a=b&c=d
+ 11239/1234576@a=c&b=d  will be resolved to http://grnet.gr?a=c&b=d
 </code></pre>
 
