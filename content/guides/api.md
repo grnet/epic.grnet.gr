@@ -20,4 +20,5 @@ This API uses JSON as the primary exchange format. All implementations MUST be a
   	<li><strong><a href="/guides/api-create/">Create a PID</a></strong></li>
   	<li><strong><a href="/guides/api-update/">Update a PID</a></strong></li>
   	<li><strong><a href="/guides/api-delete/">Delete a PID</a></strong></li>
+  	<li><strong><a href="/guides/api-partial/">Part Identifiers</a></strong></li>
 </ul>
