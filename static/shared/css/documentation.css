@@ -425,6 +425,7 @@ a img {
     position: absolute;
     right: 0;
     top: 150px;
+
 }
 
 .feature .gundamcat {
@@ -1111,3 +1112,11 @@ li.api-status img {
     float: left;
     margin: 0 5px 0 0;
 }
+.simple-caption {  
+
+    display: block;  
+    line-height: 25pt;  
+    text-align: center;  
+    font-size:11px;
+    
+}  

@@ -7,7 +7,14 @@ layout: overview
 	<h1>Persistent Identifiers</h1>
 	<h2>by GRNET</h2>
 	<a href="/guides/overview/" class="button">Browse the documentation</a>
-	<img src="/shared/images/handle-pid.png" class="handle-pid-logo" />
+	<div class="handle-pid-logo">
+		<img src="/shared/images/handle-pid.png"  />
+		<span class="caption simple-caption">  
+		<p>Image from Clarin Project (http://www.clarin.eu)</p>  
+		</span> 
+	</div>
+
+
 </div>
 
 <div class="full-width-divider">
