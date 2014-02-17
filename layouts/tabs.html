@@ -6,6 +6,29 @@
     <div class="content">
 
       <%= yield %>
+
+<ul class="nav nav-tabs">
+	<% render_child('search').each_with_index do | k | %>
+	  <% if k[:order]==1 %>
+		  <li class="active"><a href="#tab-<%= k[:order] %>" data-toggle="tab"><%= k[:title] %></a></li>
+	  <% else  %>
+		  <li><a href="#tab-<%= k[:order] %>" data-toggle="tab"><%= k[:title] %></a></li>
+	<% end %>
+	<% end %>
+</ul>
+<div class="tab-content">
+	<% render_child('search').each_with_index do | k | %>
+	 <% if k[:order]==1 %>
+	 <div class="tab-pane active" id="tab-<%= k[:order] %>">
+	  <% else  %>
+	 <div class="tab-pane" id="tab-<%= k[:order] %>">
+	<% end %>
+		<%= k.compiled_content %>
+	 </div>
+	<% end %>
+</div>
+
+<!--
 <article class="tabs">
 	<% render_child('search').each_with_index do | k | %>
 	<span id="tab-<%= k[:order] %>" class="anchor"></span>
@@ -16,7 +39,6 @@
 	<% end %>
 
 </article>
-<!--
 <article class="tabs">
 	<% render_child('search').each_with_index do | k | %>
 	<section id="tab<%= k[:order] %>">

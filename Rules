@@ -3,7 +3,10 @@
 compile '/static/*' do
 end
 
-compile '/allguides/parts/*' do
+compile '/allguides/examples/*' do
+filter :colorize_syntax, 
+       :default_colorizer => :pygmentsrb,
+       :pygmentsrb => { :options => { :startinline => 'True' } }
 end
 compile '/guides/*' do
   filter :kramdown, :toc_levels => [2]
