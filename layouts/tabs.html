@@ -4,11 +4,11 @@
 
   <div id="wrapper">
     <div class="content">
-
       <%= yield %>
 
+<% if @item[:slug] %>
 <ul class="nav nav-tabs">
-	<% render_child('search').each_with_index do | k | %>
+	<% render_child(@item[:slug]).each_with_index do | k | %>
 	  <% if k[:order]==1 %>
 		  <li class="active"><a href="#tab-<%= k[:order] %>" data-toggle="tab"><%= k[:title] %></a></li>
 	  <% else  %>
@@ -17,7 +17,7 @@
 	<% end %>
 </ul>
 <div class="tab-content">
-	<% render_child('search').each_with_index do | k | %>
+	<% render_child(@item[:slug]).each_with_index do | k | %>
 	 <% if k[:order]==1 %>
 	 <div class="tab-pane active" id="tab-<%= k[:order] %>">
 	  <% else  %>
@@ -27,46 +27,15 @@
 	 </div>
 	<% end %>
 </div>
-
-<!--
-<article class="tabs">
-	<% render_child('search').each_with_index do | k | %>
-	<span id="tab-<%= k[:order] %>" class="anchor"></span>
-	<div class="panel">
-		<a class="tab-link" href="#tab-<%= k[:order] %>"><%= k[:title] %></a>
-		<div><%= k.compiled_content %></div>
-	</div>
+	<% if @item[:result] %>
+		<% render_child(@item[:result]).each_with_index do | k | %>
+			<%= k.compiled_content %>
+		<% end %>
 	<% end %>
 
-</article>
-<article class="tabs">
-	<% render_child('search').each_with_index do | k | %>
-	<section id="tab<%= k[:order] %>">
-	<h2><a href="#tab<%= k[:order] %>"><%= k[:title] %></a></h2>
-	<p> <%= k.compiled_content %></p>
-	</section>
-	<% end %>
-
-</article>
-
-
-	<section class="tabs">
-	<% render_child('search').each_with_index do | k | %>
-		<input id="tab-<%= k[:order] %>" type="radio" name="radio-set" class="tab-selector-<%= k[:order] %>" checked="checked" />
-		<label for="tab-<%= k[:order] %>" class="tab-label-<%= k[:order] %>"><%= k[:title] %></label>
-	<% end %>
-        <div class="clear-shadow"></div>
-	<div class="content">
-	<% render_child('search').each_with_index do | k | %>
-		<div class="content-<%= k[:order] %>">
-		<%= k.compiled_content %>
-		</div>
-	<% end %>
-	</section>
--->
-
-
+<% end %> <!--end item[:slug]-->
  </div>
+
 
     <div id="js-sidebar" class="sidebar-shell">
       <div class="sidebar-module">
@@ -87,14 +56,11 @@
           </ul></li>
         </ul> 
       </div>
-      <div class="sidebar-module notice">
-        <p>
+      <div class="sidebar-module notice padding10">
           <strong>Service Url:</strong>
-          <center>
-            https://epic.grnet.gr/api/v2/handles/
-          </center>
-        </p>
-      </div>
+          <span class="txtcenter"> https://epic.grnet.gr/api/v2/handles/ </span>
+      </div><!--sidebar-module-->
+	</div>
   </div><!-- #wrapper -->
 
   <%= render 'footer' %>

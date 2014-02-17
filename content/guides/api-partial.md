@@ -1,5 +1,6 @@
 ---
 title: API | Part Identifiers
+kind: code
 ---
 
 # API - Part Identifiers

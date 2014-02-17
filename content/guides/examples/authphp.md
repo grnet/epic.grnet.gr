@@ -1,21 +1,20 @@
 ---
 title: PHP
-parent: search
+parent: auth
 order: 3
 ---
-### The request in php 
+
+The request in php 
 
 <pre><code class="language-php5">
 $PIDSERVICE_URL="THE_SERVICE_URL_WITH_PREFIX";
 $PIDSERVICE_USER="YOURUSERNAME";
 $PIDSERVICE_PASSWD="YOURPASSWORD";
-$SEARCHTERM = "grnet";
-$GETPIDURL =$PIDSERVICE_URL."?URL=*".$SEARCHTERM."*";
-
 // Get cURL resource
 $curl = curl_init();
-// Set some options - we are passing in a useragent too here
-curl_setopt($curl,CURLOPT_URL,$GETPIDURL);
+
+// Set the url to authenticate
+curl_setopt($curl,CURLOPT_URL,$PIDSERVICE_URL);
 // Set the authentication options
 curl_setopt($curl, CURLOPT_USERPWD, $PIDSERVICE_USER.":".$PIDSERVICE_PASSWD);
 curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
@@ -27,14 +26,15 @@ curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 
 // Download the given URL, and return output
 $output = curl_exec($curl);
+$finalData = json_decode($output);
 
 $info = curl_getinfo($curl);
-if( $info['http_code']==200) echo "PID DATA";
-if( $info['http_code']==401) echo "Authorization problem";
-if( $info['http_code']==404) echo "Not found";
+if( $info['http_code']==200) echo "Authorization ok<br/>";
+if( $info['http_code']==401) echo "Authorization failed: Either your login or your password is wrong.<br/>";
 
 // Close the cURL resource, and free system resources
 curl_close($curl);
+
 </code></pre>
 
 
