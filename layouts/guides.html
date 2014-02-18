@@ -5,7 +5,32 @@
 
   <div id="wrapper">
     <div class="content">
+	<%= yield %>
+
+<%if @item[:wheel] %>
+    <% @item[:wheel].each_with_index do | k | %>  
+	<%= k[:name] %>
+	<div class='wrapword'><pre><code><%= k[:description] %></code></pre></div>
+	
+<% end %>
+
+ <div class='post'>
+    <h1><%= item[:title] %></h1>
+    <article>
       <%= yield %>
+    </article>
+  </div>
+
+<% render_child('search').each_with_index do | k | %>
+        <h2><%= k[:title] %></h2>
+        <%= k.compiled_content %>
+<% end %>
+
+<div class="topic">
+</div>
+
+<% end %>
+
     </div>
 
     <div id="js-sidebar" class="sidebar-shell">
@@ -35,7 +60,6 @@
 	  </center>
 	</p>
       </div>
-    </div><!-- sidebar-shell -->
   </div><!-- #wrapper -->
   
   <%= render 'footer' %>

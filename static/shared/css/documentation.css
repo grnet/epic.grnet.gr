@@ -1120,3 +1120,15 @@ li.api-status img {
     font-size:11px;
     
 }  
+
+.padding10{
+padding:10px;
+}
+
+.txtcenter{
+    display: block;  
+    text-align: center;  
+}
+
+
+
