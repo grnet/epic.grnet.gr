@@ -53,13 +53,13 @@ sub main {
 	(my $returncode) = get_arguments($settings_ref);
 
 	if( $returncode == 0 ) 
-		 performPut($settings_ref);
+	 performPost($settings_ref);
 
 	return($returncode);
 }
  
-# Subroutine to perform a PUT action
-sub performPut {
+# Subroutine to perform a POST action
+sub performPost {
 
 	# Get the subroutine arguments
 	my $settings_ref = shift;
@@ -68,15 +68,13 @@ sub performPut {
 	my $url="$settings_ref->{handle}->{credentials}->{baseuri}$settings_ref->{handle}->{url}->{pid}";
 	printf("The constructed url is        : %s\n",$url) if $settings_ref->{debug} =~ /True/ ;
 	my @httpHeaders = ( 'Content-Type: application/json' );
-	# add extra header info. f.i. "If-Match: *" or "If-None-Match: *"
-	push(@httpHeaders, "$settings_ref->{handle}->{headerextra}" ) if $settings_ref->{handle}->{headerextra} ;
 
 	#construct data
 	my $data=$settings_ref->{handle}->{data}->{putpost};
 	printf("The data is                   : %s\n",$data) if $settings_ref->{debug} =~ /True/ ;
 
 	# perform action
-	(my $returncode, my $response_code, my $response_content_type, my $response_body ) = httpPut($settings_ref, $url, \@httpHeaders, $data );
+	(my $returncode, my $response_code, my $response_content_type, my $response_url ) = httpPost($settings_ref, $url, \@httpHeaders, $data );
 
 	# Looking at the results of the curl request
 	if ($returncode == 0) {
@@ -85,6 +83,7 @@ sub performPut {
 		# judge result and next action based on $response_code
 		if ($response_code >= 200 && $response_code < 300 ) {
 			print('The request went ok\n') if $settings_ref->{debug} =~ /True/ ;
+			print("$response_url\n");
 		} else {
 			print('The request went NOT ok\n') if $settings_ref->{debug} =~ /True/ ;
 			print("$response_code\n");
@@ -105,8 +104,8 @@ sub read_callback {
 	return $data;
 }
 
-# Subroutine to post data via a http PUT
-sub httpPut {
+# Subroutine to post data via a http POST
+sub httpPost {
 
 	# Get the subroutine arguments
 	my $settings_ref = shift;
@@ -114,25 +113,24 @@ sub httpPut {
 	my $httpHeaders_ref = shift;
 	my $data = shift;
 
-	print('Entering httpPut              :\n')         if $settings_ref->{debug} =~ /True/;
+	print('Entering httpPost             :\n')         if $settings_ref->{debug} =~ /True/;
 
 	# local varables
-	my $length = length ($data);
 	my $body = "";
 	my $header = "";
 	my $response_body;
 	my $response_code;
 	my $response_content_type;
+	my $response_url = "";
 
 	my $curl = WWW::Curl::Easy->new;
 
 	# set options for the curl http request
-	$curl->setopt(CURLOPT_HEADER, 0);
+	$curl->setopt(CURLOPT_HEADER, 1);
 	$curl->setopt(CURLOPT_HTTPHEADER, $httpHeaders_ref );
-	$curl->setopt(CURLOPT_READFUNCTION, \&read_callback);
-	$curl->setopt(CURLOPT_UPLOAD, 1);
-	$curl->setopt(CURLOPT_INFILE, \$data);
-	$curl->setopt(CURLOPT_INFILESIZE, length($data));
+	$curl->setopt(CURLOPT_POST, 1);
+	$curl->setopt(CURLOPT_POSTFIELDS, $data);
+	$curl->setopt(CURLOPT_POSTFIELDSIZE, length($data)) ;
 	$curl->setopt(CURLOPT_URL, $url);
 	$curl->setopt(CURLOPT_USERNAME, $settings_ref->{handle}->{credentials}->{username});
 	$curl->setopt(CURLOPT_PASSWORD, $settings_ref->{handle}->{credentials}->{password});
@@ -141,7 +139,7 @@ sub httpPut {
 	#$curl->setopt (CURLOPT_VERBOSE, 1);
 
 	# A filehandle, reference to a scalar or reference to a typeglob can be used here.
-	open my $fh, '>', \$response_body or die "$!";
+	open my $fh, '>:encoding(UTF-8)', \$response_body or die "$!";
 	$curl->setopt(CURLOPT_WRITEDATA, $fh);
 
 	# Do the actual curl http request
@@ -153,7 +151,6 @@ sub httpPut {
 	# Looking at the results of the curl request
 	if ($returncode == 0) {
 		print('Transfer went ok\n') if $settings_ref->{debug} =~ /True/ ;
-
 		$response_code         = $curl->getinfo(CURLINFO_HTTP_CODE);
 		$response_content_type = $curl->getinfo(CURLINFO_CONTENT_TYPE);
 		print("Received response code        : $response_code\n")         if $settings_ref->{debug} =~ /True/;
@@ -162,7 +159,19 @@ sub httpPut {
 		# judge result and next action based on $response_code
 		if ($response_code >= 200 && $response_code < 300 ) {
 			print('The request went ok\n') if $settings_ref->{debug} =~ /True/ ;
-			print("$response_body\n") if $settings_ref->{debug} =~ /True/ ;
+			print("$response_body\n") if $settings_ref->{debug} =~ /True/;
+			open my $fh, '<:encoding(UTF-8)', \$response_body or die "$!";
+			while (my $row = <$fh>) {
+				chomp $row;
+				print "row: $row\n" if $settings_ref->{debug} =~ /True/;
+				if ( $row =~ /^Location/ ) {
+					$response_url = $row;
+					$response_url =~ s/^Location: // ;
+					print("Received response url         : $response_url\n") if $settings_ref->{debug} =~ /True/;
+					last;
+				}
+			}
+
 		} else {
 			print('The request went NOT ok\n') if $settings_ref->{debug} =~ /True/ ;
 			print("$response_code\n") if $settings_ref->{debug} =~ /True/;
@@ -174,8 +183,9 @@ sub httpPut {
 	}
 
 	# Return the results
-	return($returncode, $response_code, $response_content_type, $response_body );
+	return($returncode, $response_code, $response_content_type, $response_url );
 }
+
 # Subroutine to get and check all script arguments
 sub get_arguments {
 

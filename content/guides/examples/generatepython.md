@@ -4,7 +4,8 @@ parent: generate
 order: 2
 ---
 
-The request in python
+The request in python. 
+The main difference is that you have to do a POST request.
 
 <pre><code class="language-python">
 import urllib2
@@ -14,7 +15,7 @@ import json
 PIDSERVICE_URL="THE_SERVICE_URL_WITH_PREFIX"
 PIDSERVICE_USER="YOURUSERNAME"
 PIDSERVICE_PASSWD="YOURPASSWORD"
-SUFFIX ="suffix=GRNET&amp;prefix=test"
+SUFFIX ="?prefix=GRNET&suffix=test"
 URL_TO_OPEN=PIDSERVICE_URL+SUFFIX
 DATAURL=''
 
@@ -46,8 +47,8 @@ REQUESTDATA = urllib2.Request(URL_TO_OPEN, data=JSONDATATOSEND)
 REQUESTDATA.add_header('Content-Type','application/json')
 REQUESTDATA.add_header('Content-Length',len(JSONDATATOSEND))
 
-# creates the PUT method
-REQUESTDATA.get_method = lambda: 'PUT'
+# creates the POST method
+REQUESTDATA.get_method = lambda: 'POST'
 
 try:
     DATAURL = urllib2.urlopen(REQUESTDATA)

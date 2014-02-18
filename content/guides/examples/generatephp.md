@@ -10,7 +10,7 @@ The request in php
 $PIDSERVICE_URL="THE_SERVICE_URL_WITH_PREFIX";
 $PIDSERVICE_USER="YOURUSERNAME";
 $PIDSERVICE_PASSWD="YOURPASSWORD";
-$UUID = "prefix=GRNET&amp;suffix=TEST";
+$UUID = "?prefix=GRNET&suffix=TEST";
 $URL_TO_OPEN = $PIDSERVICE_URL.$UUID;
 $data = array(array('type' => 'URL','parsed_data'=>'http://www.grnet.gr/'));
 $update_json=json_encode($data);
@@ -21,8 +21,8 @@ $ch = curl_init();
 //Set the headers to complete the request
 curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json','Content-Length: ' . strlen($update_json)));
 
-//set the PUT Action
-curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
+//set the POST Action
+curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
 
 //SET the postfield data
 curl_setopt($ch, CURLOPT_POSTFIELDS,$update_json);

@@ -20,7 +20,7 @@ There are two ways to generate the SUFFIX a) automatic and b) manual
 
 ## Automatic generation of SUFFIX
 
-The API supports the automatic generation of a local name - suffix by using a generator. This generator uses UUIDs to guarantee the uniqueness of created handles. The syntax follows the following pattern
+The API supports the automatic generation of a local name - suffix by using a generator via a POST Request. This generator uses UUIDs to guarantee the uniqueness of created handles. The syntax follows the following pattern
 
 <span class="txtcenter"><strong>SUFFIX = prefix - UUID - suffix </strong></span>
 
@@ -33,7 +33,7 @@ The API supports the automatic generation of a local name - suffix by using a ge
 
 ## Example
 
-In this example we are going to use the automatic creation of PID.
+In this example we are going to use the automatic creation of PID. The automatic generation of PID is executed using a POST HTTP Request.
 
 
 
