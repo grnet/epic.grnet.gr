@@ -1,3 +1,4 @@
+Gemfile
 output
 tmp
 .DS_Store
@@ -5,3 +6,5 @@ tmp
 bin
 crash.log
 *~
+*.swp
+*.swo
