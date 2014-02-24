@@ -1,5 +1,6 @@
 ---
 title: API | Update a PID
+kind: code
 ---
 
 # API - Update an existing PID

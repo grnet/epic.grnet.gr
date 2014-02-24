@@ -14,6 +14,7 @@ This API uses JSON as the primary exchange format. All implementations MUST be a
 
 <ul>
   	<li><strong><a href="/guides/api-auth/">Authenticate</a></strong> with basic authenctication.</li>
+        <li><strong><a href="/guides/api-generation/">PID Generation</a></strong></li>
   	<li><strong><a href="/guides/api-get/">Get a PID</a></strong>: retrieve the information of a selected PID.</li>
   	<li><strong><a href="/guides/api-list/">List all PID</a></strong>: retrieve the list of pids at once.</li>
   	<li><strong><a href="/guides/api-search/">Search</a></strong>: search for a PID by using a term.</li>
