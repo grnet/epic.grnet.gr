@@ -7,7 +7,8 @@ title: Getting Started
 This document describes the handle RESTful web service, using the HTTP application protocol. The API supports the following functions 
 
 - GET for getting the data of a selected PID 
-- PUT for creating/updating a new PID
+- POST for creating a new PID with automatic generation of suffix name.
+- PUT for creating/updating a new PID with manual generation of suffix name
 - DELETE for deleting a selected PID
 
 This API uses JSON as the primary exchange format. All implementations MUST be able to produce and consume JSON.

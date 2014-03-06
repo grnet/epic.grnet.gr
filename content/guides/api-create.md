@@ -11,11 +11,22 @@ This API uses JSON as the primary exchange format. All implementations MUST be a
 
 ## Create a new PID - Description
 
-You want to create a new PID. The creation and the update functions are both using the PUT method. So if you want to be sure that you are going to create a new one you must first check if it exists. If you don't check the existence of a PID based on the suffix it is possible that you will update the data of an existing one. 
+You want to create a new PID. There are two ways to create - generate a new PID 
+
+- automatic generation of the suffix name via the POST method
+- manual generation of the suffix name via the PUT method
+
+HTTP PUT can be used for both resource creation and resource updates .
+So if you want to be sure that you are going to create a new one you must first check if it exists. If you don't check the existence of a PID based on the suffix it is possible that you will update the data of an existing one. 
+
+There is a way to make your HTTP PUT request “conditional” in the sense that it will only be executed if the URL doesn’t exist yet (which constitutes a create action), or that it does exist yet (which constitutes an update ). 
+
+<p class="text-warning"><span class="label label-success">Info</span> In order to make the PUT request conditional use HTTP’s If-Match: * or If-None-Match:* headers.</p>
 
 | **Description** | Create a new PID |
 | **URL**         | The GRNET API Service URL  |
-| **HTTP Method** | PUT                        |
+| **HTTP Method** | PUT for manual generation of suffix name                       |
+| **HTTP Method** | POST for automatic generation of suffix name                       |
 | **Security**    | Requires ownership of the PID. So you must authenticate before actually creating the PID|
 
 The data you must send in order to create are described in the following table 
@@ -23,7 +34,7 @@ The data you must send in order to create are described in the following table
 
 Type | Description | Required | Default value | Example value |
 ------|-------------|----------|---------------|---------------|
-suffix | The local name of the handle in the system | Yes | None |  use a UUID generator |
+suffix | The local name of the handle in the system | Yes | None | a) use a UUID generator via **PUT method**, b) automatic generation via **POST method** |
 
 The data you must send as json representation are described in the following table 
 
@@ -38,5 +49,6 @@ refs|a list of references to other Handle Values| No| None| [{'idx':'1','handle'
 
 ## Example
 
-In this example we are going to create a new handle in the following url https://epic.grnet.gr/handles/11239/UUIDGENERATE
+In this example we are going to create a new handle via the PUT method  in the following url https://epic.grnet.gr/handles/11239/UUIDGENERATE. There is an example via POST method at [PID generation page][PIDGEN]
 
+[PIDGEN]: /guides/api-generation/
