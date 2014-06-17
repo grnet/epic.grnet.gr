@@ -30,9 +30,10 @@ layout: overview
 			<p>Enable the use of persistent identifiers in your application using the EPIC API</p>
 		</li>
 		<li class="highlight-module">
-			<a href="mailto:hdl-support@grnet.gr"><span class="big-icon glyphicon-envelope"></span></a>
-			<h2><a href="mailto:hdl-support@grnet.gr" target="_top">Contact</a></h2>
-			<p>Are you interested in using Persistent Identifiers for your data set? Get in touch with us to get you started.</p>
+			<a href="https://docs.google.com/forms/d/1IQL8dtwUW_MrV9ApZJmnjzZRaAAp18JtGTa2wMfcxiM/viewform" target='blank'><span class="big-icon glyphicon-envelope"></span></a>
+			<h2><a href="https://docs.google.com/forms/d/1IQL8dtwUW_MrV9ApZJmnjzZRaAAp18JtGTa2wMfcxiM/viewform" target="blank">Contact</a></h2>
+			<p>Are you interested in using Persistent Identifiers for your data set? Get in touch with us to get you started. Just fill out the 
+			<a href='https://docs.google.com/forms/d/1IQL8dtwUW_MrV9ApZJmnjzZRaAAp18JtGTa2wMfcxiM/viewform' target='blank'>form</a>.</p>
 		</li>
 	</ul>
 </div>
