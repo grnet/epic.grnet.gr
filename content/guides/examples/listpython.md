@@ -29,6 +29,9 @@ opener = urllib2.build_opener(handler)
 # use the opener to fetch a URL
 opener.open(PIDSERVICE_URL)
 
+#create the headers (json output)
+REQUESTDATA.add_header('Accept','application/json')
+
 # Install the opener.
 # Now all calls to urllib2.urlopen use the created opener.
 urllib2.install_opener(opener)

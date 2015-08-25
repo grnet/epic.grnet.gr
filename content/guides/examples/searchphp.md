@@ -21,6 +21,9 @@ curl_setopt($curl,CURLOPT_URL,$GETPIDURL);
 curl_setopt($curl, CURLOPT_USERPWD, $PIDSERVICE_USER.":".$PIDSERVICE_PASSWD);
 curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
 
+// Set the necessary header (json output)
+curl_setopt($curl, CURLOPT_HTTPHEADER, array("Accept:application/json"));
+
 // Include header in result? (0 = yes, 1 = no)
 curl_setopt($curl, CURLOPT_HEADER, 0);
 // Should cURL return or print out the data? (true = return, false = print)
