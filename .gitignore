@@ -6,3 +6,5 @@ tmp
 bin
 crash.log
 *~
+*.swp
+*.swo
